@@ -39,6 +39,10 @@ int main(int argc, char* argv[])
       cc1 = malloc(sizeof(double) * nrows * nrows); 
       starttime = MPI_Wtime();
       /* Insert your master code here to store the product into cc1 */
+	int i =0;
+	int j =0;
+	int k = 0;
+	int l = 0; 
 	for (i = 0; i < N; i++) {  
 		for (j = 0; j < N; j++){    
 			cc1[i][j] = 0;  

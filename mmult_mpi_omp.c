@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
   int nrows, ncols;
   double *aa;	/* the A matrix */
   double *bb;	/* the B matrix */
-  double *cc1;	/* A x B computed using the omp-mpi code you write */
+  //double *cc1;	/* A x B computed using the omp-mpi code you write */
   double *cc2;	/* A x B computed using the conventional algorithm */
   int myid, numprocs;
   double starttime, endtime;
@@ -30,19 +30,27 @@ int main(int argc, char* argv[])
   MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
   MPI_Comm_rank(MPI_COMM_WORLD, &myid);
   if (argc > 1) {
-    nrows = atoi(argv[1]); //gets num rows from command line
-    ncols = nrows;
-    if (myid == 0) {
-      // Master Code goes here
-      aa = gen_matrix(nrows, ncols); //generates a matrics
-      bb = gen_matrix(ncols, nrows);
-      cc1 = malloc(sizeof(double) * nrows * nrows); 
-      starttime = MPI_Wtime();
-      /* Insert your master code here to store the product into cc1 */
 	int i =0;
 	int j =0;
 	int k = 0;
 	int l = 0; 
+    nrows = atoi(argv[1]); //gets num rows from command line
+	ncols = nrows;
+	//DID THIS WORK???
+	double *cc1[nrows];	/* A x B computed using the omp-mpi code you write */
+    for(i=0; i<numrows; i++){
+		cc1[i] = malloc(sizeof(double) * ncols)
+	}
+	
+	
+    if (myid == 0) {
+      // Master Code goes here
+      aa = gen_matrix(nrows, ncols); //generates a matrics
+      bb = gen_matrix(ncols, nrows);
+      //cc1 = malloc(sizeof(double) * nrows * nrows); 
+      starttime = MPI_Wtime();
+      /* Insert your master code here to store the product into cc1 */
+	
 	for (i = 0; i < nrows; i++) {  
 		for (j = 0; j < nrows; j++){    
 			cc1[i][j] = 0;  
@@ -93,3 +101,4 @@ int main(int argc, char* argv[])
   MPI_Finalize();
   return 0;
 }
+

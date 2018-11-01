@@ -43,12 +43,12 @@ int main(int argc, char* argv[])
 	int j =0;
 	int k = 0;
 	int l = 0; 
-	for (i = 0; i < N; i++) {  
-		for (j = 0; j < N; j++){    
+	for (i = 0; i < nrows; i++) {  
+		for (j = 0; j < nrows; j++){    
 			cc1[i][j] = 0;  
 		}
-		for (k = 0; k < N; k++){    
-			for (l = 0; l < N; l++){      
+		for (k = 0; k < nrows; k++){    
+			for (l = 0; l < nrows; l++){      
 		    		cc1[i][l] += aa[i][k] * bb[k][l];
 				printf("cc1 = %d\n", cc1[i][l]); 
 			}
@@ -93,3 +93,4 @@ int main(int argc, char* argv[])
   MPI_Finalize();
   return 0;
 }
+

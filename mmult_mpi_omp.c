@@ -18,8 +18,8 @@ void compare_matrix(double *a, double *b, int nRows, int nCols);
 int main(int argc, char* argv[])
 {
   int nrows, ncols;
-  double *aa;	/* the A matrix */
-  double *bb;	/* the B matrix */
+  //double *aa;	/* the A matrix */
+  //double *bb;	/* the B matrix */
   //double *cc1;	/* A x B computed using the omp-mpi code you write */
   double *cc2;	/* A x B computed using the conventional algorithm */
   int myid, numprocs;
@@ -37,9 +37,11 @@ int main(int argc, char* argv[])
     nrows = atoi(argv[1]); //gets num rows from command line
 	ncols = nrows;
 	//DID THIS WORK???
+	double *aa[nrows];
+	double *bb[nrows];
 	double *cc1[nrows];	/* A x B computed using the omp-mpi code you write */
-    for(i=0; i<numrows; i++){
-		cc1[i] = malloc(sizeof(double) * ncols)
+    for(i=0; i<nrows; i++){
+		cc1[i] = malloc(sizeof(double) * ncols);
 	}
 	
 	
@@ -101,4 +103,5 @@ int main(int argc, char* argv[])
   MPI_Finalize();
   return 0;
 }
+
 

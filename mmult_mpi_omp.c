@@ -39,6 +39,18 @@ int main(int argc, char* argv[])
       cc1 = malloc(sizeof(double) * nrows * nrows); 
       starttime = MPI_Wtime();
       /* Insert your master code here to store the product into cc1 */
+	for (i = 0; i < N; i++) {  
+		for (j = 0; j < N; j++){    
+			cc1[i][j] = 0;  
+		}
+		for (k = 0; k < N; k++){    
+			for (l = 0; l < N; l++){      
+		    		cc1[i][l] += aa[i][k] * bb[k][l];
+				printf("cc1 = %d\n", cc1[i][l]); 
+			}
+		}
+	}
+	    
       endtime = MPI_Wtime();
       printf("%f\n",(endtime - starttime));
 	  //creates test matrix that program will use to compare my calculated
@@ -51,7 +63,8 @@ int main(int argc, char* argv[])
       // Slave Code goes here
 	  
 	  //FROM POWERPOINT
-	  MPI_Bcast(b, ncols, MPI_DOUBLE, master, MPI_COMM_WORLD);
+	    /*
+	  MPI_Bcast(bb, ncols, MPI_DOUBLE, master, MPI_COMM_WORLD);
 	  if (myid <= nrows) {    
 		while(1) {    
 			//recieve a vector
@@ -63,12 +76,13 @@ int main(int argc, char* argv[])
 			ans = 0.0; 
 			//calculate the answer
 			for (j = 0; j < ncols; j++) {            
-				ans += buffer[j] * b[j];        
+				ans += buffer[j] * bb[j];        
 			}
 			//send answer back to the master 
 			MPI_Send(&ans, 1, MPI_DOUBLE, master, row,MPI_COMM_WORLD);    
 		}
-    }
+		
+    }*/
   } else {
     fprintf(stderr, "Usage matrix_times_vector <size>\n");
   }

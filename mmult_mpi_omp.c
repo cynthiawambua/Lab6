@@ -45,11 +45,11 @@ int main(int argc, char* argv[])
 	int l = 0; 
 	for (i = 0; i < nrows; i++) {  
 		for (j = 0; j < nrows; j++){    
-			&cc1[i][j] = 0;  
+			cc1[i][j] = 0;  
 		}
 		for (k = 0; k < nrows; k++){    
 			for (l = 0; l < nrows; l++){      
-		    		&cc1[i][l] += &aa[i][k] * &bb[k][l];
+		    		cc1[i][l] += aa[i][k] * bb[k][l];
 				printf("cc1 = %d\n", &cc1[i][l]); 
 			}
 		}
@@ -63,11 +63,11 @@ int main(int argc, char* argv[])
       mmult(cc2, aa, nrows, ncols, bb, ncols, nrows);
 	  //compares matrices 
       compare_matrices(cc2, cc1, nrows, nrows);
-    } else {
+    } /*else {
       // Slave Code goes here
 	  
 	  //FROM POWERPOINT
-	    /*
+	    
 	  MPI_Bcast(bb, ncols, MPI_DOUBLE, master, MPI_COMM_WORLD);
 	  if (myid <= nrows) {    
 		while(1) {    
@@ -86,8 +86,8 @@ int main(int argc, char* argv[])
 			MPI_Send(&ans, 1, MPI_DOUBLE, master, row,MPI_COMM_WORLD);    
 		}
 		
-    }*/
-  } else {
+	  
+  } }*/else {
     fprintf(stderr, "Usage matrix_times_vector <size>\n");
   }
   MPI_Finalize();

@@ -30,22 +30,44 @@ int main(int argc, char* argv[])
   MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
   MPI_Comm_rank(MPI_COMM_WORLD, &myid);
   if (argc > 1) {
-    nrows = atoi(argv[1]);
+    nrows = atoi(argv[1]); //gets num rows from command line
     ncols = nrows;
     if (myid == 0) {
       // Master Code goes here
-      aa = gen_matrix(nrows, ncols);
+      aa = gen_matrix(nrows, ncols); //generates a matrics
       bb = gen_matrix(ncols, nrows);
       cc1 = malloc(sizeof(double) * nrows * nrows); 
       starttime = MPI_Wtime();
       /* Insert your master code here to store the product into cc1 */
       endtime = MPI_Wtime();
       printf("%f\n",(endtime - starttime));
+	  //creates test matrix that program will use to compare my calculated
+	  //... matrix to what the answer should be
       cc2  = malloc(sizeof(double) * nrows * nrows);
       mmult(cc2, aa, nrows, ncols, bb, ncols, nrows);
+	  //compares matrices 
       compare_matrices(cc2, cc1, nrows, nrows);
     } else {
       // Slave Code goes here
+	  
+	  //FROM POWERPOINT
+	  MPI_Bcast(b, ncols, MPI_DOUBLE, master, MPI_COMM_WORLD);
+	  if (myid <= nrows) {    
+		while(1) {    
+			//recieve a vector
+			MPI_Recv(buffer, ncols, MPI_DOUBLE, master, MPI_ANY_TAG, MPI_COMM_WORLD, &status);        
+			if (status.MPI_TAG == 0){ break; }   
+			//recieve the row
+			row = status.MPI_TAG;        
+			//initialize the answer 
+			ans = 0.0; 
+			//calculate the answer
+			for (j = 0; j < ncols; j++) {            
+				ans += buffer[j] * b[j];        
+			}
+			//send answer back to the master 
+			MPI_Send(&ans, 1, MPI_DOUBLE, master, row,MPI_COMM_WORLD);    
+		}
     }
   } else {
     fprintf(stderr, "Usage matrix_times_vector <size>\n");

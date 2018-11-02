@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 		for (k = 0; k < nrows; k++){    
 			for (l = 0; l < ncols; l++){      
 		    		cc1[i*ncols + l] += aa[i*ncols + k] * bb[k*ncols + l];
-				printf("cc1 = %d\n", &cc1[i][l]); 
+				printf("cc1 = %lf\n", &cc1[i*ncols + l]); 
 			}
 		}
 	}
@@ -105,3 +105,4 @@ int main(int argc, char* argv[])
   MPI_Finalize();
   return 0;
 }
+

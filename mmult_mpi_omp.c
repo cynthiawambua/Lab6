@@ -34,32 +34,34 @@ int main(int argc, char* argv[])
 	int j =0;
 	int k = 0;
 	int l = 0; 
-    nrows = atoi(argv[1]); //gets num rows from command line
+    
+	nrows = atoi(argv[1]); //gets num rows from command line
 	ncols = nrows;
 	//DID THIS WORK???
+	/*
 	double *aa[nrows];
 	double *bb[nrows];
-	double *cc1[nrows];	/* A x B computed using the omp-mpi code you write */
+	double *cc1[nrows];	// A x B computed using the omp-mpi code you write 
     for(i=0; i<nrows; i++){
 		cc1[i] = malloc(sizeof(double) * ncols);
 	}
-	
+	*/
 	
     if (myid == 0) {
       // Master Code goes here
       aa = gen_matrix(nrows, ncols); //generates a matrics
       bb = gen_matrix(ncols, nrows);
-      //cc1 = malloc(sizeof(double) * nrows * nrows); 
+      cc1 = malloc(sizeof(double) * nrows * nrows); 
       starttime = MPI_Wtime();
       /* Insert your master code here to store the product into cc1 */
 	
 	for (i = 0; i < nrows; i++) {  
-		for (j = 0; j < nrows; j++){    
-			cc1[i][j] = 0;  
+		for (j = 0; j < ncols; j++){    
+			cc1[i*ncols + j] = 0;  
 		}
 		for (k = 0; k < nrows; k++){    
-			for (l = 0; l < nrows; l++){      
-		    		cc1[i][l] += aa[i][k] * bb[k][l];
+			for (l = 0; l < ncols; l++){      
+		    		cc1[i*ncols + l] += aa[i*ncols + k] * bb[k*ncols + l];
 				printf("cc1 = %d\n", &cc1[i][l]); 
 			}
 		}

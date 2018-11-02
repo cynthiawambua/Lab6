@@ -18,9 +18,9 @@ void compare_matrix(double *a, double *b, int nRows, int nCols);
 int main(int argc, char* argv[])
 {
   int nrows, ncols;
-  //double *aa;	/* the A matrix */
-  //double *bb;	/* the B matrix */
-  //double *cc1;	/* A x B computed using the omp-mpi code you write */
+  double *aa;	/* the A matrix */
+  double *bb;	/* the B matrix */
+  double *cc1;	/* A x B computed using the omp-mpi code you write */
   double *cc2;	/* A x B computed using the conventional algorithm */
   int myid, numprocs;
   double starttime, endtime;
@@ -99,11 +99,9 @@ int main(int argc, char* argv[])
 		}
 		
 	  
-  } }*/else {
+  } */}else {
     fprintf(stderr, "Usage matrix_times_vector <size>\n");
-  }
+	}
   MPI_Finalize();
   return 0;
 }
-
-
